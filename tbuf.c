@@ -1,16 +1,4 @@
-/**************************************************************************/
-/*              COPYRIGHT Carnegie Mellon University 2023                 */
-/* Do not post this file or any derivative on a public site or repository */
-/**************************************************************************/
-/*
- * Text buffers
- *
- * The back end for a one-character text editor, a doubly-linked list
- * whose elements are 16-character gap buffers.
- *
- * 15-122 Principles of Imperative Computation */
 
-/*** Interface (DO NOT CHANGE) ***/
 
 typedef dll_pt tbuf;
 
@@ -25,8 +13,6 @@ void tbuf_backward(tbuf* B);       /* Move the cursor backward/left by 1  */
 void tbuf_insert(tbuf* B, char c); /* Insert c before the cursor          */
 void tbuf_delete(tbuf* B);         /* Delete the char before the cursor   */
                                    /* and delete point if it is empty     */
-
-/*** Implementation (include contracts here) ***/
 
 bool gap_buf_check(dll* A, dll* B) 
 {
@@ -53,7 +39,6 @@ bool gap_buf_check(dll* A, dll* B)
 }
 
 bool no_empty_gapbuf_check(dll*A, dll*B)
-//@requires gap_buf_check(A, B);
 {   
     gapbuf* a = A->data;
     gapbuf* b = B->data;
@@ -109,7 +94,6 @@ dll* new_node()
 }
 
 tbuf* tbuf_new()
-//@ensures is_tbuf(\result);
 {
     dll_pt* header = alloc(struct dll_pt_header);
     header->start = new_node();
@@ -130,8 +114,6 @@ tbuf* tbuf_new()
 }
 
 gapbuf* gapbuf_copy_left(gapbuf* point_node)
-//@requires(is_gapbuf(point_node));
-//@ensures(is_gapbuf(\result));
 {
     gapbuf* left = gapbuf_new(16);
     if(point_node -> gap_start <= 7){
@@ -162,8 +144,6 @@ gapbuf* gapbuf_copy_left(gapbuf* point_node)
 }
 
 gapbuf* gapbuf_copy_right(gapbuf* point_node)
-//@requires(is_gapbuf(point_node));
-//@ensures(is_gapbuf(\result));
 {
     gapbuf* right = gapbuf_new(16);
     if(point_node -> gap_start > 7){
@@ -193,8 +173,6 @@ gapbuf* gapbuf_copy_right(gapbuf* point_node)
 }
 
 void tbuf_split_pt(tbuf* B)
-//@requires is_tbuf(B);
-//@ensures is_tbuf(B);
 {
     dll* left_node = new_node();
     dll* right_node = new_node();
@@ -219,8 +197,6 @@ void tbuf_split_pt(tbuf* B)
 }
 
 void tbuf_forward(tbuf* B)
-//@requires is_tbuf(B);
-//@ensures is_tbuf(B);
 {  
     if(!dll_pt_at_right(B))
     {
@@ -232,8 +208,6 @@ void tbuf_forward(tbuf* B)
 }
 
 void tbuf_backward(tbuf* B)
-//@requires is_tbuf(B);
-//@ensures is_tbuf(B);
 {   
     if (!dll_pt_at_left(B))
     {
@@ -245,9 +219,6 @@ void tbuf_backward(tbuf* B)
 }
 
 void tbuf_insert(tbuf* B, char c)
-//@requires is_tbuf(B);
-//@requires !gapbuf_full(B->point->data);
-//@ensures is_tbuf(B);
 {   
     if (!gapbuf_full(B->point->data))
         gapbuf_insert(B->point->data, c);
@@ -256,8 +227,6 @@ void tbuf_insert(tbuf* B, char c)
 }
 
 void tbuf_delete(tbuf* B)
-//@requires is_tbuf(B);
-//@ensures is_tbuf(B);
 {
     if(!gapbuf_empty(B->point->data) && is_gapbuf(B->point->data))
         gapbuf_delete(B->point->data);
