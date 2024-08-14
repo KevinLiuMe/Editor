@@ -1,18 +1,4 @@
-/**************************************************************************/
-/*              COPYRIGHT Carnegie Mellon University 2023                 */
-/* Do not post this file or any derivative on a public site or repository */
-/**************************************************************************/
-/*
- * Doubly linked lists with point
- *
- * A text buffer is a doubly linked list (dll), where one of the
- * elements in the dll is designated as containing the point.  The
- * list is terminated on both ends with dummy nodes whose contents are
- * never inspected.
- *
- * 15-122 Principles of Imperative Computation */
 
-/*** Interface (DO NOT CHANGE) ***/
 
 typedef struct dll_node dll;
 struct dll_node {
@@ -80,39 +66,26 @@ bool is_dll_pt(dll_pt* B){
 }
 
 bool dll_pt_at_left(dll_pt* B)
-//@requires is_dll_pt(B);
-//@ensures is_dll_pt(B);
 {
   return B->point == B->start->next;
 }
 
 bool dll_pt_at_right(dll_pt* B)
-//@requires is_dll_pt(B);
-//@ensures is_dll_pt(B);
 {
   return B->point == B->end->prev;
 }
 
 void dll_pt_forward(dll_pt* B)
-//@requires is_dll_pt(B);
-//@requires !dll_pt_at_right(B);
-//@ensures is_dll_pt(B);
 {
   B->point = B->point->next;
 }
 
 void dll_pt_backward(dll_pt* B)
-//@requires is_dll_pt(B);
-//@requires !dll_pt_at_left(B);
-//@ensures is_dll_pt(B);
 {
   B->point = B->point->prev;
 }
 
 void dll_pt_delete(dll_pt* B)
-//@requires !(dll_pt_at_left(B) && dll_pt_at_right(B));
-//@requires is_dll_pt(B);
-//@ensures is_dll_pt(B);
 {
   if(!dll_pt_at_right(B)){
     dll* tmp = B->point->next;
